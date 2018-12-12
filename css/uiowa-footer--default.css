@@ -1,0 +1,42 @@
+.uiowa-footer--default {
+  background-color: #000000;
+  padding: 1em 0;
+}
+
+.col-left .block,
+.col-right .block {
+  margin-bottom: 1.3em;
+}
+
+.block--additional-info {
+  color: #ffffff;
+}
+
+.block--additional-info a {
+  color: #999999;
+}
+
+.block--additional-info a:hover,
+.block--additional-info a:focus {
+  color: #ffcd00;
+}
+
+.block--social-media-menu .menu {
+  display: flex;
+  font-size: 1.5em;
+}
+.block--social-media-menu .menu a {
+  color: #999999;
+}
+
+.block--custom-menu .menu {
+  column-count: 2;
+}
+.block--custom-menu .menu li {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.block--custom-menu .menu a {
+  color: #ffcd00;
+}

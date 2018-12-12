@@ -1,0 +1,55 @@
+<footer>
+<div class="container-fluid">
+  <div class="row uiowa-footer--{{ variant }}">
+    {%  if lockup or additional_info_content or social_media_links %}
+      <div class="col-md-6 col-left">
+        {% if lockup %}
+          <div class="block block--lockup">
+            {% if lockup_url %}
+              <a href="{{ lockup_url }}" class="lockup">{{ lockup }}</a>
+            {% else %}
+              {{ lockup }}
+            {% endif %}
+          </div>
+        {% endif %}
+        {% if additional_info_content or social_media_menu %}
+          <div class="col-md-10 col-md-push-3">
+            {% if additional_info_content %}
+              <div class="block block--additional-info">
+                {% if additional_info_title %}
+                  <h2 class="block-title">{{ additional_info_title }}</h2>
+                {% endif %}
+                <div class="block-content">
+                  {{ additional_info_content }}
+                </div>
+              </div>
+            {% endif %}
+            {% if social_media_menu and social_media_menu_links %}
+              <div class="block block--social-media-menu">
+                <h2 id="social-media-menu-title" class="block-title visually-hidden">{{ social_media_menu_title }}</h2>
+                <div class="block-content">
+                  <nav role="navigation" aria-labelledby="social-media-menu-title">
+                    {{ social_media_menu_links }}
+                  </nav>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if custom_menu and custom_menu_links %}
+      <div class="col-md-6 col-right">
+        <div class="block block--custom-menu">
+          <h2 id="custom-menu-title" class="block-title visually-hidden">{{ custom_menu_title }}</h2>
+          <div class="block-content">
+            <nav role="navigation" aria-labelledby="custom-menu-title">
+              {{ custom_menu_links }}
+            </nav>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+</footer>

@@ -1,0 +1,5 @@
+name: UIowa Footer
+description: 'Configuration and block implementation for common footer.'
+type: module
+core: 8.x
+package: University of Iowa

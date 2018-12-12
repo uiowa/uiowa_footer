@@ -1,0 +1,253 @@
+<?php
+
+/**
+ * @file
+ * Allows to easily create and manage footer content.
+ */
+
+use Drupal\Core\Url;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\system\Entity\Menu;
+use Drupal\file\Entity\File;
+use Drupal\Core\Menu\MenuTreeParameters;
+
+/**
+ * @file
+ * Code for the uiowa_footer module.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function uiowa_footer_form_system_site_information_settings_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $config = \Drupal::config('uiowa_footer.settings');
+
+  $form['uiowa_footer'] = [
+    '#type' => 'details',
+    '#title' => t('Footer'),
+    '#open' => TRUE,
+  ];
+  // Theme.
+  $form['uiowa_footer']['uiowa_footer_variant'] = [
+    '#type' => 'select',
+    '#title' => t('Variant'),
+    '#description' => t('Select a variant to use for the footer.'),
+    '#options' => [
+      'default' => t('UIowa Standard'),
+    ],
+    '#default_value' => $config->get('variant'),
+  ];
+  // Lockup.
+  $form['uiowa_footer']['uiowa_footer_lockup'] = [
+    '#type' => 'details',
+    '#title' => t('Lockup Image'),
+    '#open' => TRUE,
+  ];
+  $form['uiowa_footer']['uiowa_footer_lockup']['uiowa_footer_lockup_fid'] = [
+    '#type' => 'managed_file',
+    '#title' => t('Lockup Image'),
+    '#description' => t('Use this field to upload your lockup. Visit the UI Brand website to <a href=":url" target="_blank">create a lockup and search approved lockups</a>.', [
+      ':url' => Url::fromUri('https://brand.uiowa.edu/lockup-system')->toString(),
+    ]),
+    '#default_value' => $config->get('lockup.fid'),
+    '#upload_location' => 'public://uiowa_footer',
+    '#upload_validators' => [
+      'file_validate_extensions' => [
+        'gif jpeg jpg png svg',
+      ],
+    ],
+  ];
+  $form['uiowa_footer']['uiowa_footer_lockup']['uiowa_footer_lockup_alt'] = [
+    '#type' => 'textfield',
+    '#title' => t('Alternative text'),
+    '#description' => t('This text will be used by screen readers, search engines, or when the image cannot be loaded.'),
+    '#default_value' => $config->get('lockup.alt'),
+    '#states' => [
+      'visible' => [
+        ':input[name="uiowa_footer_lockup_fid[fids]"]' => ['filled' => TRUE],
+      ],
+      'required' => [
+        ':input[name="uiowa_footer_lockup_fid[fids]"]' => ['filled' => TRUE],
+      ],
+    ],
+  ];
+  $form['uiowa_footer']['uiowa_footer_lockup']['uiowa_footer_lockup_url'] = [
+    '#type' => 'url',
+    '#title' => t('Link'),
+    '#description' => t('Provide a URL to wrap the lockup image in a link.'),
+    '#default_value' => $config->get('lockup.url'),
+    '#states' => [
+      'visible' => [
+        ':input[name="uiowa_footer_lockup_fid[fids]"]' => ['filled' => TRUE],
+      ],
+    ],
+  ];
+  // Menus.
+  $menus = ['none' => 'None'];
+  $menus = array_merge($menus, menu_ui_get_menus());
+  $form['uiowa_footer']['uiowa_footer_social_media_menu'] = [
+    '#type' => 'select',
+    '#title' => t('Social Media Menu'),
+    '#description' => t('The menu used for social media links.'),
+    '#options' => $menus,
+    '#disabled' => TRUE,
+    '#default_value' => $config->get('social_media_menu'),
+  ];
+  $form['uiowa_footer']['uiowa_footer_custom_menu'] = [
+    '#type' => 'select',
+    '#title' => t('Custom Links Menu'),
+    '#description' => t('The menu used for custom footer links.'),
+    '#options' => $menus,
+    '#disabled' => TRUE,
+    '#default_value' => $config->get('custom_menu'),
+  ];
+  // Additional Information.
+  $form['uiowa_footer']['uiowa_footer_additional_info'] = [
+    '#type' => 'details',
+    '#title' => t('Additional Information'),
+    '#open' => TRUE,
+  ];
+  $form['uiowa_footer']['uiowa_footer_additional_info']['uiowa_footer_additional_info_title'] = [
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => $config->get('additional_info.title'),
+    '#description' => t('Enter a title for the Additional Information block.'),
+  ];
+  $form['uiowa_footer']['uiowa_footer_additional_info']['uiowa_footer_additional_info_content'] = [
+    '#type' => 'text_format',
+    '#format' => 'filtered_html',
+    '#title' => t('Details'),
+    '#description' => t('Enter the additional information you would like to display in the footer.'),
+    '#default_value' => $config->get('additional_info.content.value'),
+  ];
+
+  // Add a custom submit handler to save the footer configuration.
+  $form["#submit"][] = 'uiowa_footer_submit';
+}
+
+/**
+ * Custom submit handler for UIowa Footer.
+ */
+function uiowa_footer_submit($form, FormStateInterface $form_state) {
+  \Drupal::configFactory()->getEditable('uiowa_footer.settings')
+    ->set('variant', $form_state->getValue('uiowa_footer_variant'))
+    ->set('lockup.fid', $form_state->getValue('uiowa_footer_lockup_fid'))
+    ->set('lockup.alt', $form_state->getValue('uiowa_footer_lockup_alt'))
+    ->set('lockup.url', $form_state->getValue('uiowa_footer_lockup_url'))
+    ->set('social_media_menu', $form_state->getValue('uiowa_footer_social_media_menu'))
+    ->set('custom_menu', $form_state->getValue('uiowa_footer_custom_menu'))
+    ->set('additional_info.title', $form_state->getValue('uiowa_footer_additional_info_title'))
+    ->set('additional_info.content', $form_state->getValue('uiowa_footer_additional_info_content'))
+    ->save();
+
+  drupal_flush_all_caches();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function uiowa_footer_theme($existing, $type, $theme, $path) {
+  $uiowa_footer_config = \Drupal::config('uiowa_footer.settings');
+  $lockup_fid_array = $uiowa_footer_config->get('lockup.fid');
+  return [
+    'uiowa_footer' => [
+      'pattern' => 'uiowa_footer__',
+      'variables' => [
+        'variant' => $uiowa_footer_config->get('variant'),
+        'lockup_fid' => array_shift($lockup_fid_array),
+        'lockup_alt' => $uiowa_footer_config->get('lockup.alt'),
+        'lockup_url' => $uiowa_footer_config->get('lockup.url'),
+        'social_media_menu' => $uiowa_footer_config->get('social_media_menu'),
+        'custom_menu' => $uiowa_footer_config->get('custom_menu'),
+        'additional_info_title' => $uiowa_footer_config->get('additional_info.title'),
+        'additional_info_content' => check_markup($uiowa_footer_config->get('additional_info.content.value'), $uiowa_footer_config->get('additional_info.content.format')),
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function uiowa_footer_theme_suggestions_uiowa_footer(array $variables) {
+  // Provide a theme suggestion based on the selected variant.
+  $suggestions = [];
+  $suggestions[] = 'uiowa_footer__' . $variables['variant'];
+  return $suggestions;
+}
+
+/**
+ * Implements hook_preprocess_uiowa_footer().
+ */
+function template_preprocess_uiowa_footer(&$variables) {
+  // Add css if applicable.
+  $variables['#attached']['library'][] = 'uiowa_footer/variant.' . $variables['variant'];
+
+  // Generate lockup render array.
+  $fid = $variables['lockup_fid'];
+  if (!empty($fid)) {
+    $lockup_file = File::load($fid);
+    $url = $lockup_file->url();
+
+    $variables['lockup'] = [
+      '#theme' => 'image',
+      '#uri' => $url,
+      '#alt' => $variables['lockup_alt'],
+    ];
+  }
+
+  // Generate social media menu markup.
+  $social_menu = $variables['social_media_menu'];
+  if ($menu = Menu::load($social_menu)) {
+    $variables['social_media_menu_title'] = $menu->label();
+    $variables['social_media_menu_links'] = uiowa_footer_generate_menu_markup($social_menu);
+  }
+
+  // Generate custom menu markup.
+  $custom_menu = $variables['custom_menu'];
+  if ($menu = Menu::load($custom_menu)) {
+    $variables['custom_menu_title'] = $menu->label();
+    $variables['custom_menu_links'] = uiowa_footer_generate_menu_markup($custom_menu);
+  }
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function uiowa_footer_page_bottom(array &$page_bottom) {
+  $admin_context = \Drupal::service('router.admin_context');
+  if (!$admin_context->isAdminRoute()) {
+    $page_bottom['uiowa_footer'] = [
+      '#theme' => 'uiowa_footer',
+    ];
+  }
+}
+
+/**
+ * Generate markup for a menu.
+ *
+ * @param string $menu_name
+ *   The machine name of a menu.
+ *
+ * @return string
+ *   The markup of the menu tree or NULL if there are no menu links to display.
+ */
+function uiowa_footer_generate_menu_markup($menu_name) {
+  $parameters = new MenuTreeParameters();
+  $parameters->onlyEnabledLinks();
+  $menu_tree_service = \Drupal::service('menu.link_tree');
+  $tree = $menu_tree_service->load($menu_name, $parameters);
+  $manipulators = [
+    ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
+    ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+    ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+  ];
+  $tree = $menu_tree_service->transform($tree, $manipulators);
+
+  if (!empty($tree)) {
+    return $menu_tree_service->build($tree);
+  }
+  else {
+    return NULL;
+  }
+}

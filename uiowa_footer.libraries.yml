@@ -1,0 +1,4 @@
+variant.default:
+  css:
+    theme:
+      css/uiowa-footer--default.css: {}
