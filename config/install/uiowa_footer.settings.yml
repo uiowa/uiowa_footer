@@ -5,7 +5,7 @@ lockup:
   url: ''
 social_media_menu: social
 custom_menu: footer
-custom_menu_2: none
+custom_menu_2: footer-second
 additional_info:
   title: ''
   content:
