@@ -106,6 +106,7 @@ function uiowa_footer_form_system_site_information_settings_alter(&$form, FormSt
     '#title' => t('Custom Links Menu 2'),
     '#description' => t('Choose the menu for custom footer links.'),
     '#options' => $menus,
+    '#disabled' => TRUE,
     '#default_value' => $config->get('custom_menu_2'),
   ];
   // Additional Information.
