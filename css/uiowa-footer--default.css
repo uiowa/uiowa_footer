@@ -29,14 +29,6 @@
   color: #999999;
 }
 
-.block--custom-menu .menu {
-  column-count: 2;
-}
-.block--custom-menu .menu li {
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  break-inside: avoid;
-}
 .block--custom-menu .menu a {
   color: #ffcd00;
 }

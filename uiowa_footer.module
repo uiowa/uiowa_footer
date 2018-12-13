@@ -101,6 +101,13 @@ function uiowa_footer_form_system_site_information_settings_alter(&$form, FormSt
     '#disabled' => TRUE,
     '#default_value' => $config->get('custom_menu'),
   ];
+  $form['uiowa_footer']['uiowa_footer_custom_menu_2'] = [
+    '#type' => 'select',
+    '#title' => t('Custom Links Menu 2'),
+    '#description' => t('Choose the menu for custom footer links.'),
+    '#options' => $menus,
+    '#default_value' => $config->get('custom_menu_2'),
+  ];
   // Additional Information.
   $form['uiowa_footer']['uiowa_footer_additional_info'] = [
     '#type' => 'details',
@@ -136,6 +143,7 @@ function uiowa_footer_submit($form, FormStateInterface $form_state) {
     ->set('lockup.url', $form_state->getValue('uiowa_footer_lockup_url'))
     ->set('social_media_menu', $form_state->getValue('uiowa_footer_social_media_menu'))
     ->set('custom_menu', $form_state->getValue('uiowa_footer_custom_menu'))
+    ->set('custom_menu_2', $form_state->getValue('uiowa_footer_custom_menu_2'))
     ->set('additional_info.title', $form_state->getValue('uiowa_footer_additional_info_title'))
     ->set('additional_info.content', $form_state->getValue('uiowa_footer_additional_info_content'))
     ->save();
@@ -159,6 +167,7 @@ function uiowa_footer_theme($existing, $type, $theme, $path) {
         'lockup_url' => $uiowa_footer_config->get('lockup.url'),
         'social_media_menu' => $uiowa_footer_config->get('social_media_menu'),
         'custom_menu' => $uiowa_footer_config->get('custom_menu'),
+        'custom_menu_2' => $uiowa_footer_config->get('custom_menu_2'),
         'additional_info_title' => $uiowa_footer_config->get('additional_info.title'),
         'additional_info_content' => check_markup($uiowa_footer_config->get('additional_info.content.value'), $uiowa_footer_config->get('additional_info.content.format')),
       ],
@@ -208,6 +217,14 @@ function template_preprocess_uiowa_footer(&$variables) {
   if ($menu = Menu::load($custom_menu)) {
     $variables['custom_menu_title'] = $menu->label();
     $variables['custom_menu_links'] = uiowa_footer_generate_menu_markup($custom_menu);
+  }
+
+  // Generate custom menu 2 markup.
+  $custom_menu_2 = $variables['custom_menu_2'];
+  if (!empty($custom_menu_2) && $custom_menu_2 != 'none') {
+    $menu = Menu::load($custom_menu_2);
+    $variables['custom_menu_2_title'] = $menu->label();
+    $variables['custom_menu_2_links'] = uiowa_footer_generate_menu_markup($custom_menu_2);
   }
 }
 

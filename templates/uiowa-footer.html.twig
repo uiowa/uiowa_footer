@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row uiowa-footer--{{ variant }}">
     {%  if lockup or additional_info_content or social_media_links %}
-      <div class="col-md-6 col-left">
+      <div class="col-md-8 col-left">
         {% if lockup %}
           <div class="block block--lockup">
             {% if lockup_url %}
@@ -13,7 +13,7 @@
           </div>
         {% endif %}
         {% if additional_info_content or social_media_menu %}
-          <div class="col-md-10 col-md-push-3">
+          <div class="col-md-10 col-md-push-2">
             {% if additional_info_content %}
               <div class="block block--additional-info">
                 {% if additional_info_title %}
@@ -39,12 +39,24 @@
       </div>
     {% endif %}
     {% if custom_menu and custom_menu_links %}
-      <div class="col-md-6 col-right">
+      <div class="col-sm-6 col-md-2 col-left">
         <div class="block block--custom-menu">
           <h2 id="custom-menu-title" class="block-title visually-hidden">{{ custom_menu_title }}</h2>
           <div class="block-content">
             <nav role="navigation" aria-labelledby="custom-menu-title">
               {{ custom_menu_links }}
+            </nav>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% if custom_menu_2 and custom_menu_2_links %}
+      <div class="col-sm-6 col-md-2 col-right">
+        <div class="block block--custom-menu">
+          <h2 id="custom-menu-2-title" class="block-title visually-hidden">{{ custom_menu_2_title }}</h2>
+          <div class="block-content">
+            <nav role="navigation" aria-labelledby="custom-menu-2-title">
+              {{ custom_menu_2_links }}
             </nav>
           </div>
         </div>
