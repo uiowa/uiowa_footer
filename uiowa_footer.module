@@ -193,6 +193,18 @@ function template_preprocess_uiowa_footer(&$variables) {
   // Add css if applicable.
   $variables['#attached']['library'][] = 'uiowa_footer/variant.' . $variables['variant'];
 
+  // Generate login link markup.
+  if (!empty($variables['login_link'])) {
+    $login_url = Url::fromRoute('samlauth.saml_controller_login');
+    $options = ['attributes' => ['class' => 'hawkid-login']];
+    $login_url->setOptions($options);
+    $variables['login_link'] = [
+      '#type' => 'link',
+      '#title' => t('HawkID Login'),
+      '#url' => $login_url,
+    ];
+  }
+
   // Generate lockup render array.
   $fid = $variables['lockup_fid'];
   if (!empty($fid)) {

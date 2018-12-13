@@ -1,6 +1,6 @@
 <footer>
-<div class="container-fluid">
-  <div class="row uiowa-footer--{{ variant }}">
+<div class="container-fluid uiowa-footer--{{ variant }}">
+  <div class="row">
     {%  if lockup or additional_info_content or social_media_links %}
       <div class="col-md-6 col-left">
         {% if lockup %}
@@ -51,5 +51,12 @@
       </div>
     {% endif %}
   </div>
+  {%  if login_link %}
+    <div class="row uiowa-footer--login-link">
+      <div class="col-12">
+        {{ login_link }}
+      </div>
+    </div>
+  {% endif %}
 </div>
 </footer>
