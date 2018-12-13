@@ -194,7 +194,7 @@ function template_preprocess_uiowa_footer(&$variables) {
   $variables['#attached']['library'][] = 'uiowa_footer/variant.' . $variables['variant'];
 
   // Generate login link markup.
-  if (!empty($variables['login_link'])) {
+  if (!(\Drupal::currentUser()->isAuthenticated()) && !empty($variables['login_link'])) {
     $login_url = Url::fromRoute('samlauth.saml_controller_login');
     $options = ['attributes' => ['class' => 'hawkid-login']];
     $login_url->setOptions($options);
@@ -203,6 +203,9 @@ function template_preprocess_uiowa_footer(&$variables) {
       '#title' => t('HawkID Login'),
       '#url' => $login_url,
     ];
+  }
+  else {
+    $variables['login_link'] = NULL;
   }
 
   // Generate lockup render array.
