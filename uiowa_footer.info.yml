@@ -3,3 +3,7 @@ description: 'Configuration and block implementation for common footer.'
 type: module
 core: 8.x
 package: University of Iowa
+dependencies:
+  - drupal:filter
+  - drupal:image
+  - drupal:menu
