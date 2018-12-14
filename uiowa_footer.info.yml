@@ -6,4 +6,4 @@ package: University of Iowa
 dependencies:
   - drupal:filter
   - drupal:image
-  - drupal:menu
+  - drupal:system
