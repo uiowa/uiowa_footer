@@ -85,21 +85,26 @@ function uiowa_footer_form_system_site_information_settings_alter(&$form, FormSt
   // Menus.
   $menus = ['none' => 'None'];
   $menus = array_merge($menus, menu_ui_get_menus());
-  $form['uiowa_footer']['uiowa_footer_social_media_menu'] = [
+  $form['uiowa_footer']['uiowa_footer_menus'] = [
+    '#type' => 'details',
+    '#title' => t('Links'),
+    '#open' => TRUE,
+  ];
+  $form['uiowa_footer']['uiowa_footer_menus']['uiowa_footer_social_media_menu'] = [
     '#type' => 'select',
     '#title' => t('Social Media Menu'),
     '#description' => t('The menu used for social media links.'),
     '#options' => $menus,
     '#default_value' => $config->get('social_media_menu'),
   ];
-  $form['uiowa_footer']['uiowa_footer_custom_menu'] = [
+  $form['uiowa_footer']['uiowa_footer_menus']['uiowa_footer_custom_menu'] = [
     '#type' => 'select',
     '#title' => t('Custom Links Menu'),
     '#description' => t('The menu used for custom footer links.'),
     '#options' => $menus,
     '#default_value' => $config->get('custom_menu'),
   ];
-  $form['uiowa_footer']['uiowa_footer_custom_menu_2'] = [
+  $form['uiowa_footer']['uiowa_footer_menus']['uiowa_footer_custom_menu_2'] = [
     '#type' => 'select',
     '#title' => t('Custom Links Menu 2'),
     '#description' => t('Choose the menu for custom footer links.'),
