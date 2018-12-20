@@ -21,6 +21,7 @@ use Drupal\Core\Menu\MenuTreeParameters;
  */
 function uiowa_footer_form_system_site_information_settings_alter(&$form, FormStateInterface $form_state, $form_id) {
   $config = \Drupal::config('uiowa_footer.settings');
+  $login_url = Url::fromRoute('samlauth.saml_controller_login', [], ['absolute' => TRUE]);
 
   $form['uiowa_footer'] = [
     '#type' => 'details',
@@ -36,6 +37,13 @@ function uiowa_footer_form_system_site_information_settings_alter(&$form, FormSt
       'default' => t('UIowa Standard'),
     ],
     '#default_value' => $config->get('variant'),
+  ];
+  // Login link.
+  $form['uiowa_footer']['uiowa_footer_login_link'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Display a login link.'),
+    '#description' => t('If this box is not checked, content contributors must go directly to <a href="@login_url">@login_url</a> to login.', ['@login_url' => $login_url->toString()]),
+    '#default_value' => $config->get('login_link'),
   ];
   // Lockup.
   $form['uiowa_footer']['uiowa_footer_lockup'] = [
@@ -131,6 +139,7 @@ function uiowa_footer_form_system_site_information_settings_alter(&$form, FormSt
 function uiowa_footer_submit($form, FormStateInterface $form_state) {
   \Drupal::configFactory()->getEditable('uiowa_footer.settings')
     ->set('variant', $form_state->getValue('uiowa_footer_variant'))
+    ->set('login_link', $form_state->getValue('uiowa_footer_login_link'))
     ->set('lockup.fid', $form_state->getValue('uiowa_footer_lockup_fid'))
     ->set('lockup.alt', $form_state->getValue('uiowa_footer_lockup_alt'))
     ->set('lockup.url', $form_state->getValue('uiowa_footer_lockup_url'))
@@ -154,6 +163,7 @@ function uiowa_footer_theme($existing, $type, $theme, $path) {
       'pattern' => 'uiowa_footer__',
       'variables' => [
         'variant' => $uiowa_footer_config->get('variant'),
+        'login_link' => $uiowa_footer_config->get('login_link'),
         'lockup_fid' => array_shift($lockup_fid_array),
         'lockup_alt' => $uiowa_footer_config->get('lockup.alt'),
         'lockup_url' => $uiowa_footer_config->get('lockup.url'),
@@ -182,6 +192,21 @@ function uiowa_footer_theme_suggestions_uiowa_footer(array $variables) {
 function template_preprocess_uiowa_footer(&$variables) {
   // Add css if applicable.
   $variables['#attached']['library'][] = 'uiowa_footer/variant.' . $variables['variant'];
+
+  // Generate login link markup.
+  if (!(\Drupal::currentUser()->isAuthenticated()) && !empty($variables['login_link'])) {
+    $login_url = Url::fromRoute('samlauth.saml_controller_login');
+    $options = ['attributes' => ['class' => 'hawkid-login']];
+    $login_url->setOptions($options);
+    $variables['login_link'] = [
+      '#type' => 'link',
+      '#title' => t('HawkID Login'),
+      '#url' => $login_url,
+    ];
+  }
+  else {
+    $variables['login_link'] = NULL;
+  }
 
   // Generate lockup render array.
   $fid = $variables['lockup_fid'];
