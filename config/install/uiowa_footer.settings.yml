@@ -4,8 +4,9 @@ lockup:
   fid: {  }
   alt: ''
   url: ''
-social_media_menu: social
-custom_menu: footer
+social_media_menu: none
+custom_menu: none
+custom_menu_2: none
 additional_info:
   title: ''
   content:
