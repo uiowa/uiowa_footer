@@ -221,16 +221,16 @@ function template_preprocess_uiowa_footer(&$variables) {
   }
 
   // Generate lockup render array.
-  $lockup = File::load($variables['lockup_fid']);
+  if (isset($variables['lockup_fid'])) {
+    if ($lockup = File::load($variables['lockup_fid'])) {
+      $url = $lockup->url();
 
-  if ($lockup) {
-    $url = $lockup->url();
-
-    $variables['lockup'] = [
-      '#theme' => 'image',
-      '#uri' => $url,
-      '#alt' => $variables['lockup_alt'],
-    ];
+      $variables['lockup'] = [
+        '#theme' => 'image',
+        '#uri' => $url,
+        '#alt' => $variables['lockup_alt'],
+      ];
+    }
   }
 
   // Generate social media menu markup.
