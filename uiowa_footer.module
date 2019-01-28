@@ -168,7 +168,7 @@ function uiowa_footer_submit($form, FormStateInterface $form_state) {
  */
 function uiowa_footer_theme($existing, $type, $theme, $path) {
   $uiowa_footer_config = \Drupal::config('uiowa_footer.settings');
-  $lockup_fid_array = $uiowa_footer_config->get('lockup.fid');
+  $lockup_fid_array = $uiowa_footer_config->get('lockup.fid') ?? [];
   return [
     'uiowa_footer' => [
       'pattern' => 'uiowa_footer__',
