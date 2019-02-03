@@ -32,7 +32,6 @@
 
 .uiowa-footer--default .block--social-media-menu .menu {
   display: flex;
-  font-size: 1rem;
 }
 .uiowa-footer--default .block--social-media-menu .menu a {
   color: #999999;
@@ -57,4 +56,12 @@
 
 .uiowa-footer--default .block--custom-menu .menu a {
   color: #ffcd00;
+}
+
+.uiowa-footer--login-link {
+  background-color: #ffcd00;
+}
+.uiowa-footer--login-link a.hawkid-login {
+  color: black;
+  font-size: 80%;
 }
