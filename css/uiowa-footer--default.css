@@ -3,36 +3,58 @@
   padding: 1em 0;
 }
 
-.col-left .block,
-.col-right .block {
+.uiowa-footer--default .col-left .block,
+.uiowa-footer--default .col-right .block {
   margin-bottom: 1.3em;
 }
 
-.block--lockup img {
-  max-width: 500px;
+.uiowa-footer--default .block--lockup img {
+  max-width: 350px;
 }
 
-.block--additional-info {
+.uiowa-footer--default .block--additional-info {
   color: #ffffff;
 }
 
-.block--additional-info a {
+.uiowa-footer--default .block--additional-info a {
   color: #999999;
 }
 
-.block--additional-info a:hover,
-.block--additional-info a:focus {
+.uiowa-footer--default .block--additional-info a:hover,
+.uiowa-footer--default .block--additional-info a:focus {
   color: #ffcd00;
 }
 
-.block--social-media-menu .menu {
-  display: flex;
-  font-size: 1.5em;
-}
-.block--social-media-menu .menu a {
-  color: #999999;
+.uiowa-footer--default ul.menu {
+  list-style-type: none;
+  padding: 0;
 }
 
-.block--custom-menu .menu a {
+.uiowa-footer--default .block--social-media-menu .menu {
+  display: flex;
+  font-size: 1rem;
+}
+.uiowa-footer--default .block--social-media-menu .menu a {
+  color: #999999;
+  display: block;
+  padding: .5rem;
+  padding-left: 0;
+}
+.uiowa-footer--default .block--social-media-menu .menu a:hover,
+.uiowa-footer--default .block--social-media-menu .menu a:focus {
+  color: white;
+}
+.uiowa-footer--default .block--social-media-menu .menu a.fa-icon .menu-link-title {
+  border: 0;
+  clip: rect(0,0,0,0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.uiowa-footer--default .block--custom-menu .menu a {
   color: #ffcd00;
 }
