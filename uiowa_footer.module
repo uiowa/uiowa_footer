@@ -160,6 +160,20 @@ function uiowa_footer_submit($form, FormStateInterface $form_state) {
     ->set('additional_info.content', $form_state->getValue('uiowa_footer_additional_info_content'))
     ->save();
 
+  $lockup = $form_state->getValue('uiowa_footer_lockup_fid');
+  // Load the object of the file by its fid.
+  if (!empty($lockup)) {
+    $file = File::load($lockup[0]);
+    // Set the status flag permanent of the file object.
+    if (!empty($file)) {
+      $file->setPermanent();
+      // Save the file in the database.
+      $file->save();
+      $file_usage = \Drupal::service('file.usage');
+      $file_usage->add($file, 'uiowa_footer', 'file', \Drupal::currentUser()->id());
+    }
+  }
+
   drupal_flush_all_caches();
 }
 
