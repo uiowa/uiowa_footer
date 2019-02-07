@@ -36,12 +36,16 @@
 .uiowa-footer--default .block--social-media-menu .menu a {
   color: #999999;
   display: block;
-  padding: .5rem;
-  padding-left: 0;
+  padding: 1rem 0.5rem 1rem 0;
+  font-size: 1rem;
+}
+.uiowa-footer--default .block--social-media-menu .menu a.fa-icon {
+  padding: 0.5rem;
+  font-size: 1.8rem;
 }
 .uiowa-footer--default .block--social-media-menu .menu a:hover,
 .uiowa-footer--default .block--social-media-menu .menu a:focus {
-  color: white;
+  color: #ffcd00;
 }
 .uiowa-footer--default .block--social-media-menu .menu a.fa-icon .menu-link-title {
   border: 0;
