@@ -63,9 +63,9 @@
 }
 
 .uiowa-footer--login-link {
-  background-color: #ffcd00;
+  background-color: #343a40;
 }
 .uiowa-footer--login-link a.hawkid-login {
-  color: black;
+  color: white;
   font-size: 80%;
 }
