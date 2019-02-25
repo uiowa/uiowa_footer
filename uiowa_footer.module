@@ -294,6 +294,7 @@ function uiowa_footer_page_bottom(array &$page_bottom) {
 function uiowa_footer_generate_menu_markup($menu_name) {
   $parameters = new MenuTreeParameters();
   $parameters->onlyEnabledLinks();
+  $parameters->setMaxDepth(1);
   $menu_tree_service = \Drupal::service('menu.link_tree');
   $tree = $menu_tree_service->load($menu_name, $parameters);
   $manipulators = [
