@@ -96,6 +96,7 @@ function uiowa_footer_form_system_site_information_settings_alter(&$form, FormSt
   $form['uiowa_footer']['uiowa_footer_menus'] = [
     '#type' => 'details',
     '#title' => t('Links'),
+    '#description' => t('Only the first level of menu items are displayed. Nested menu items are not rendered.'),
     '#open' => TRUE,
   ];
   $form['uiowa_footer']['uiowa_footer_menus']['uiowa_footer_social_media_menu'] = [
