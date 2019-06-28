@@ -58,6 +58,10 @@
   width: 1px;
 }
 
+.uiowa-footer--default .block--custom-menu .menu li.menu-item {
+  margin-bottom: 1rem;
+}
+
 .uiowa-footer--default .block--custom-menu .menu a {
   color: #ffcd00;
 }
