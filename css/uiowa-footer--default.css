@@ -10,6 +10,7 @@
 
 .uiowa-footer--default .block--lockup img {
   max-width: 350px;
+  width: 100%;
 }
 
 .uiowa-footer--default .block--additional-info {
