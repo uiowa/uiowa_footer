@@ -197,7 +197,7 @@ function uiowa_footer_theme($existing, $type, $theme, $path) {
         'custom_menu' => $uiowa_footer_config->get('custom_menu'),
         'custom_menu_2' => $uiowa_footer_config->get('custom_menu_2'),
         'additional_info_title' => $uiowa_footer_config->get('additional_info.title'),
-        'additional_info_content' => check_markup($uiowa_footer_config->get('additional_info.content.value'), $uiowa_footer_config->get('additional_info.content.format')),
+        'additional_info_content' => $uiowa_footer_config->get('additional_info.content'),
       ],
     ],
   ];
