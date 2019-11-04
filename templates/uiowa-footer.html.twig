@@ -20,7 +20,12 @@
                   <h2 class="block-title">{{ additional_info_title }}</h2>
                 {% endif %}
                 <div class="block-content">
-                  {{ additional_info_content }}
+                  {% set content = {
+                    '#type':   'processed_text',
+                    '#text':    additional_info_content.value,
+                    '#format':  additional_info_content.format,
+                  } %}
+                  {{content}}
                 </div>
               </div>
             {% endif %}
