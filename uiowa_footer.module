@@ -21,7 +21,6 @@ use Drupal\Core\Menu\MenuTreeParameters;
  */
 function uiowa_footer_form_system_site_information_settings_alter(&$form, FormStateInterface $form_state, $form_id) {
   $config = \Drupal::config('uiowa_footer.settings');
-  $login_url = Url::fromRoute('samlauth.saml_controller_login', [], ['absolute' => TRUE]);
 
   $form['uiowa_footer'] = [
     '#type' => 'details',
