@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install tasks.
+ */
+
+/**
+ * Clear the login_link configuration.
+ */
+function uiowa_footer_update_8001() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('uiowa_footer.settings');
+  $config->clear('login_link');
+  $config->save();
+}
