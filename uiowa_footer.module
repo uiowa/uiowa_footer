@@ -243,7 +243,7 @@ function template_preprocess_uiowa_footer(&$variables) {
   // Generate lockup render array.
   if (isset($variables['lockup_fid'])) {
     if ($lockup = File::load($variables['lockup_fid'])) {
-      $url = $lockup->url();
+      $url = file_create_url($lockup->getFileUri());
 
       $variables['lockup'] = [
         '#theme' => 'image',
