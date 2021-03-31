@@ -1,7 +1,7 @@
 name: UIowa Footer
 description: 'Configuration and block implementation for common footer.'
 type: module
-core: 8.x
+core_version_requirement: ^8 || ^9
 package: University of Iowa
 dependencies:
   - drupal:filter
